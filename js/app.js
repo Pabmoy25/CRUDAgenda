@@ -1,5 +1,5 @@
 import Contacto from "./classContacto.js";
-
+//Create - Read - Update - Delete contactos        
 // const contacto = new Contacto(1, 'Juan', 'Pérez', 'juan.perez@email.com', '555-123-4567');
 
 const modalAdminContacto = new bootstrap.Modal(document.getElementById('administrarContacto'));
@@ -9,6 +9,7 @@ const nombre = document.getElementById('nombre'),
  apellido = document.getElementById('apellido'),
  telefono = document.getElementById('telefono'),
  email = document.getElementById('email');
+ const agenda = [];
 
 //funciones
 const mostrarModal = ()=>{
@@ -23,7 +24,8 @@ const crearContacto = (e) =>{
     //crearia el contacto
     const nuevoContacto = new Contacto(undefined, nombre.value, apellido.value, email.value, telefono.value);
     console.log(nuevoContacto)
-
+    //agrego el contacto nuevo al array
+    agenda.push(nuevoContacto);
     //resetear el formulario
 }
 
