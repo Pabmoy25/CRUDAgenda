@@ -56,7 +56,7 @@ function crearFila(contacto, fila){
     <td>${contacto.nombre}</td>
     <td>${contacto.apellido}</td>
     <td>${contacto.email}</td>
-    <td>${contacto.celular}</td>
+    <td>${contacto.telefono}</td>
     <td>
       <button class="btn btn-warning">Editar</button
       ><button class="btn btn-danger">Borrar</button>
