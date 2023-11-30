@@ -11,7 +11,7 @@ const nombre = document.getElementById("nombre"),
   apellido = document.getElementById("apellido"),
   telefono = document.getElementById("telefono"),
   email = document.getElementById("email");
-const agenda = JSON.parse(localStorage.getItem('agendaKey')) || [];
+const agenda = JSON.parse(localStorage.getItem("agendaKey")) || [];
 
 //funciones
 const mostrarModal = () => {
@@ -46,7 +46,7 @@ const crearContacto = (e) => {
   Swal.fire({
     title: "Contacto creado",
     text: `El contacto ${nuevoContacto.nombre} fue creado correctamente`,
-    icon: "success"
+    icon: "success",
   });
 };
 
@@ -54,13 +54,13 @@ function limpiarFormulario() {
   formularioContacto.reset();
 }
 
-function guardarEnLocalstorage(){
-    localStorage.setItem('agendaKey', JSON.stringify(agenda))
+function guardarEnLocalstorage() {
+  localStorage.setItem("agendaKey", JSON.stringify(agenda));
 }
 
-function crearFila(contacto, fila){
-    const tablaContactos = document.querySelector('tbody');
-    tablaContactos.innerHTML += `<tr>
+function crearFila(contacto, fila) {
+  const tablaContactos = document.querySelector("tbody");
+  tablaContactos.innerHTML += `<tr>
     <th scope="row">${fila}</th>
     <td>${contacto.nombre}</td>
     <td>${contacto.apellido}</td>
@@ -70,44 +70,50 @@ function crearFila(contacto, fila){
       <button class="btn btn-warning">Editar</button
       ><button class="btn btn-danger" onclick="borrarContacto('${contacto.id}')">Borrar</button>
     </td>
-  </tr>`
+  </tr>`;
 }
 
-function cargaInicial (){
-    if(agenda.length > 0){
-        agenda.map((itemContacto, posicion)=> crearFila(itemContacto, posicion +1 ));
+function cargaInicial() {
+  if (agenda.length > 0) {
+    agenda.map((itemContacto, posicion) =>
+      crearFila(itemContacto, posicion + 1)
+    );
 
-        // const tablaContactos = document.querySelector('tbody');
-        // for(let i=0; i < agenda.length; i++)
-        // {
-        //   tablaContactos.innerHTML += `<tr>
-        //   <th scope="row">${i++}</th>
-        //   <td>${agenda[i].nombre}</td>
-        //   <td>${agenda[i].apellido}</td>
-        //   <td>${agenda[i].email}</td>
-        //   <td>${agenda[i].celular}</td>
-        //   <td>
-        //     <button class="btn btn-warning">Editar</button
-        //     ><button class="btn btn-danger">Borrar</button>
-        //   </td>
-        // </tr>`
-        // }
-
-    }
-    //agregar un cartel informativo para el usuario
+    // const tablaContactos = document.querySelector('tbody');
+    // for(let i=0; i < agenda.length; i++)
+    // {
+    //   tablaContactos.innerHTML += `<tr>
+    //   <th scope="row">${i++}</th>
+    //   <td>${agenda[i].nombre}</td>
+    //   <td>${agenda[i].apellido}</td>
+    //   <td>${agenda[i].email}</td>
+    //   <td>${agenda[i].celular}</td>
+    //   <td>
+    //     <button class="btn btn-warning">Editar</button
+    //     ><button class="btn btn-danger">Borrar</button>
+    //   </td>
+    // </tr>`
+    // }
+  }
+  //agregar un cartel informativo para el usuario
 }
-window.borrarContacto = (idContacto)=>{
-  console.log('desde la funcion borrar contacto')
+window.borrarContacto = (idContacto) => {
+  console.log("desde la funcion borrar contacto");
   console.log(idContacto);
   //buscar en el array el objeto que tiene este idContacto arrray.findIndex
- const posicionContactoBuscado = agenda.findIndex((itemContacto)=> itemContacto.id ===  idContacto);
- console.log(posicionContactoBuscado)
+  const posicionContactoBuscado = agenda.findIndex(
+    (itemContacto) => itemContacto.id === idContacto
+  );
+  console.log(posicionContactoBuscado);
   //borrar el objeto del array usando splice(posicion del objeto, cuantos borro)
-agenda.splice(posicionContactoBuscado,1);
+  agenda.splice(posicionContactoBuscado, 1);
   //actualizar el localstorage
-guardarEnLocalstorage();
+  guardarEnLocalstorage();
   //borrar una fila de la tabla
-}
+  const tablaContactos = document.querySelector("tbody");
+  console.log(tablaContactos.children[posicionContactoBuscado]); //objeto.propiedad[posicionarray]
+  tablaContactos.removeChild(tablaContactos.children[posicionContactoBuscado]);
+};
 
 //logica extra
 btnAgregarContacto.addEventListener("click", mostrarModal);
