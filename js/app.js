@@ -39,6 +39,9 @@ const crearContacto = (e) => {
   limpiarFormulario();
   //guardar el array en localstorage
   guardarEnLocalstorage();
+  //dibujar una fila
+  crearFila(nuevoContacto, agenda.length);
+  modalAdminContacto.hide();
 };
 
 function limpiarFormulario() {
@@ -56,7 +59,7 @@ function crearFila(contacto, fila){
     <td>${contacto.nombre}</td>
     <td>${contacto.apellido}</td>
     <td>${contacto.email}</td>
-    <td>${contacto.telefono}</td>
+    <td>${contacto.celular}</td>
     <td>
       <button class="btn btn-warning">Editar</button
       ><button class="btn btn-danger">Borrar</button>
@@ -66,8 +69,26 @@ function crearFila(contacto, fila){
 
 function cargaInicial (){
     if(agenda.length > 0){
-        agenda.map((contacto, posicion)=> crearFila(contacto, posicion + 1))
+        agenda.map((itemContacto, posicion)=> crearFila(itemContacto, posicion +1 ));
+
+        // const tablaContactos = document.querySelector('tbody');
+        // for(let i=0; i < agenda.length; i++)
+        // {
+        //   tablaContactos.innerHTML += `<tr>
+        //   <th scope="row">${i++}</th>
+        //   <td>${agenda[i].nombre}</td>
+        //   <td>${agenda[i].apellido}</td>
+        //   <td>${agenda[i].email}</td>
+        //   <td>${agenda[i].celular}</td>
+        //   <td>
+        //     <button class="btn btn-warning">Editar</button
+        //     ><button class="btn btn-danger">Borrar</button>
+        //   </td>
+        // </tr>`
+        // }
+
     }
+    //agregar un cartel informativo para el usuario
 }
 
 //logica extra

@@ -5,7 +5,7 @@ export default class Contacto {
   #email;
   #celular;
 
-  constructor(id = 1, nombre, apellido, email, celular) {
+  constructor(id = crypto.randomUUID() , nombre, apellido, email, celular) {
     this.#id = id;
     this.#nombre = nombre;
     this.#apellido = apellido;
