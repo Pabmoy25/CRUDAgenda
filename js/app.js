@@ -42,6 +42,12 @@ const crearContacto = (e) => {
   //dibujar una fila
   crearFila(nuevoContacto, agenda.length);
   modalAdminContacto.hide();
+  //mostrar un mensaje al usuario
+  Swal.fire({
+    title: "Contacto creado",
+    text: `El contacto ${nuevoContacto.nombre} fue creado correctamente`,
+    icon: "success"
+  });
 };
 
 function limpiarFormulario() {
