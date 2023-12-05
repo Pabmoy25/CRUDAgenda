@@ -1,4 +1,5 @@
 import Contacto from "./classContacto.js";
+import { validarCantidadCaracteres, validarEmail } from "./validaciones.js";
 //Create - Read - Update - Delete contactos
 // const contacto = new Contacto(1, 'Juan', 'Pérez', 'juan.perez@email.com', '555-123-4567');
 
@@ -23,32 +24,36 @@ const crearContacto = (e) => {
   e.preventDefault();
   console.log("aqui debo crear el contacto nuevo");
   //verificar que los datos sean validos
-
-  //crearia el contacto
-  const nuevoContacto = new Contacto(
-    undefined,
-    nombre.value,
-    apellido.value,
-    email.value,
-    telefono.value
-  );
-  console.log(nuevoContacto);
-  //agrego el contacto nuevo al array
-  agenda.push(nuevoContacto);
-  console.log(agenda);
-  //resetear el formulario
-  limpiarFormulario();
-  //guardar el array en localstorage
-  guardarEnLocalstorage();
-  //dibujar una fila
-  crearFila(nuevoContacto, agenda.length);
-  modalAdminContacto.hide();
-  //mostrar un mensaje al usuario
-  Swal.fire({
-    title: "Contacto creado",
-    text: `El contacto ${nuevoContacto.nombre} fue creado correctamente`,
-    icon: "success",
-  });
+  //if(true)
+  if (validarCantidadCaracteres(nombre.value, 2, 20) && validarCantidadCaracteres(apellido.value, 2, 20) && validarEmail(email.value)) {
+    //crearia el contacto
+    const nuevoContacto = new Contacto(
+      undefined,
+      nombre.value,
+      apellido.value,
+      email.value,
+      telefono.value
+    );
+    console.log(nuevoContacto);
+    //agrego el contacto nuevo al array
+    agenda.push(nuevoContacto);
+    console.log(agenda);
+    //resetear el formulario
+    limpiarFormulario();
+    //guardar el array en localstorage
+    guardarEnLocalstorage();
+    //dibujar una fila
+    crearFila(nuevoContacto, agenda.length);
+    modalAdminContacto.hide();
+    //mostrar un mensaje al usuario
+    Swal.fire({
+      title: "Contacto creado",
+      text: `El contacto ${nuevoContacto.nombre} fue creado correctamente`,
+      icon: "success",
+    });
+  }else{
+    alert('Hay errores en el formulario')
+  }
 };
 
 function limpiarFormulario() {
@@ -138,10 +143,11 @@ window.borrarContacto = (idContacto) => {
   });
 };
 
-window.verDetalleContacto = (idContacto) =>{
-  console.log(window.location)
-  window.location.href = window.location.origin +'/pages/detalleContacto.html?id='+idContacto
-}
+window.verDetalleContacto = (idContacto) => {
+  console.log(window.location);
+  window.location.href =
+    window.location.origin + "/pages/detalleContacto.html?id=" + idContacto;
+};
 
 //logica extra
 btnAgregarContacto.addEventListener("click", mostrarModal);
