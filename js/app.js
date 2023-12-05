@@ -15,6 +15,7 @@ const agenda = JSON.parse(localStorage.getItem("agendaKey")) || [];
 
 //funciones
 const mostrarModal = () => {
+  limpiarFormulario();
   modalAdminContacto.show();
 };
 
@@ -67,7 +68,8 @@ function crearFila(contacto, fila) {
     <td>${contacto.email}</td>
     <td>${contacto.celular}</td>
     <td>
-      <button class="btn btn-warning">Editar</button
+    <button class="btn btn-primary" onclick="verDetalleContacto('${contacto.id}')">Ver detalle</button>
+      <button class="btn btn-warning me-1">Editar</button
       ><button class="btn btn-danger" onclick="borrarContacto('${contacto.id}')">Borrar</button>
     </td>
   </tr>`;
@@ -135,6 +137,11 @@ window.borrarContacto = (idContacto) => {
     }
   });
 };
+
+window.verDetalleContacto = (idContacto) =>{
+  console.log(window.location)
+  window.location.href = window.location.origin +'/pages/detalleContacto.html?id='+idContacto
+}
 
 //logica extra
 btnAgregarContacto.addEventListener("click", mostrarModal);
