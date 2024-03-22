@@ -26,7 +26,7 @@ mainDetalleContacto.innerHTML += `<article class="card mb-3">
       <h5 class="card-title">Contacto: ${contactoBuscado.nombre}, ${contactoBuscado.apellido}</h5>
       <ul>
         <li>Email: ${contactoBuscado.email}</li>
-        <li>Celular: ${contactoBuscado.celular}</li>
+        <li>Telefono: ${contactoBuscado.celular}</li>
       </ul>
     </div>
   </div>

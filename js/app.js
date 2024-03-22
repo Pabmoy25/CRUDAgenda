@@ -10,7 +10,7 @@ const btnAgregarContacto = document.getElementById("btnNuevoContacto");
 const formularioContacto = document.querySelector("form");
 const nombre = document.getElementById("nombre"),
   apellido = document.getElementById("apellido"),
-  telefono = document.getElementById("telefono"),
+  celular = document.getElementById("celular"),
   email = document.getElementById("email");
 const agenda = JSON.parse(localStorage.getItem("agendaKey")) || [];
 
@@ -22,39 +22,60 @@ const mostrarModal = () => {
 
 const crearContacto = (e) => {
   e.preventDefault();
-  console.log("aqui debo crear el contacto nuevo");
-  //verificar que los datos sean validos
-  //if(true)
+  
+  const idContacto = formularioContacto.getAttribute('data-id-contacto');
+  
   if (validarCantidadCaracteres(nombre.value, 2, 20) && validarCantidadCaracteres(apellido.value, 2, 20) && validarEmail(email.value)) {
-    //crearia el contacto
-    const nuevoContacto = new Contacto(
-      undefined,
-      nombre.value,
-      apellido.value,
-      email.value,
-      telefono.value
-    );
-    console.log(nuevoContacto);
-    //agrego el contacto nuevo al array
-    agenda.push(nuevoContacto);
-    console.log(agenda);
-    //resetear el formulario
+    if (idContacto) {
+      // Estamos editando un contacto existente
+      const contactoAEditar = agenda.find(itemContacto => itemContacto.id === idContacto);
+      if (contactoAEditar) {
+        contactoAEditar.nombre = nombre.value;
+        contactoAEditar.apellido = apellido.value;
+        contactoAEditar.email = email.value;
+        contactoAEditar.celular = celular.value;
+      }
+      Swal.fire({
+        title: "Contacto editado",
+        text: `El contacto ${nombre.value} fue editado correctamente`,
+        icon: "success",
+      });
+      
+
+    } else {
+      // Creación de un nuevo contacto
+      const nuevoContacto = new Contacto(undefined, nombre.value, apellido.value, email.value, celular.value);
+      agenda.push(nuevoContacto);
+      crearFila(nuevoContacto, agenda.length);
+      Swal.fire({
+        title: "Contacto creado",
+        text: `El contacto ${nombre.value} fue creado correctamente`,
+        icon: "success",
+      });
+    }
     limpiarFormulario();
-    //guardar el array en localstorage
     guardarEnLocalstorage();
-    //dibujar una fila
-    crearFila(nuevoContacto, agenda.length);
     modalAdminContacto.hide();
-    //mostrar un mensaje al usuario
-    Swal.fire({
-      title: "Contacto creado",
-      text: `El contacto ${nuevoContacto.nombre} fue creado correctamente`,
-      icon: "success",
-    });
-  }else{
-    alert('Hay errores en el formulario')
+    formularioContacto.removeAttribute('data-id-contacto');
+  } else {
+    alert('Hay errores en el formulario');
   }
 };
+
+window.editarContacto = (idContacto) => {
+  const contactoAEditar = agenda.find(itemContacto => itemContacto.id === idContacto);
+  if (contactoAEditar) {
+    nombre.value = contactoAEditar.nombre;
+    apellido.value = contactoAEditar.apellido;
+    celular.value = contactoAEditar.celular;
+    email.value = contactoAEditar.email;
+    
+    formularioContacto.setAttribute('data-id-contacto', idContacto);
+    modalAdminContacto.show();
+    
+  }
+};
+
 
 function limpiarFormulario() {
   formularioContacto.reset();
@@ -74,8 +95,8 @@ function crearFila(contacto, fila) {
     <td>${contacto.celular}</td>
     <td>
     <button class="btn btn-primary" onclick="verDetalleContacto('${contacto.id}')">Ver detalle</button>
-      <button class="btn btn-warning me-1">Editar</button
-      ><button class="btn btn-danger" onclick="borrarContacto('${contacto.id}')">Borrar</button>
+    <button class="btn btn-warning me-1" onclick="editarContacto('${contacto.id}')">Editar</button>
+    <button class="btn btn-danger" onclick="borrarContacto('${contacto.id}')">Borrar</button>
     </td>
   </tr>`;
 }
